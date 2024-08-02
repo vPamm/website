@@ -1,0 +1,29 @@
+baseURL = 'https://vpamxd.com'
+languageCode = 'en-us'
+title = 'vPam'
+theme = "gokarna"
+defaultContentLanguage = "en"
+enableEmoji = true
+enableRobotsTXT = true
+
+[params]
+  footer = "vPam"
+  socialIcons = [
+    {name = "youtube", url = "https://youtube.com/vPamm"},
+    {name = "twitter", url = "https://twitter.com/pamsexuals"},
+    {name = "twitch", url = "https://twitch.tv/vPam"},
+    {name = "github", url = "https://github.com/vPamm"},
+    {name = "youtube", url = "https://youtube.com/@vPamGoesRacing"},
+  ]
+  
+# We use feather-icons: https://feathericons.com/
+pre = "<span data-feather='github'></span>"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

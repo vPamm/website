@@ -1,0 +1,12 @@
+.center-text {
+    text-align: center;
+  }
+  
+  .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh; /* Optional: If you want to center vertically within the viewport */
+  }
+  
