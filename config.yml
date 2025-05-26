@@ -46,20 +46,20 @@ links:
   - link:
       icon: "fa-brands fa-github"
       text: "chatdj <span class='link-button-text'>({{vars.GithubRepoStarsCountPlugin['vPamm/ChatDJ']}} Stars)</span>"
-      url: "https://github.com/vPam/linkyee"
+      url: "https://github.com/vPamm/ChatDJ"
       alt: "A Twitch bot for managing Spotify playlists and handling song requests via channel point redemptions."
       title: "A Twitch bot for managing Spotify playlists and handling song requests via channel point redemptions."
       target: "_blank"
   - link:
       icon: "fa-brands fa-youtube"
       text: "watch my latest main channel video"
-      url: "{{ vars.PlaceholderA }}"
+      url: ""
       target: "_blank"
 
   - link:
       icon: "fa-brands fa-youtube"
       text: "Watch my latest racing video"
-      url: "{{ vars.PlaceholderB }}"
+      url: ""
       target: "_blank"
 
 
