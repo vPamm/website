@@ -53,13 +53,13 @@ links:
   - link:
       icon: "fa-brands fa-youtube"
       text: "watch my latest main channel video"
-      url: VIDEO_A_PLACEHOLDER
+      url: https://youtu.be/8KyJtk4vHiY
       target: "_blank"
 
   - link:
       icon: "fa-brands fa-youtube"
       text: "Watch my latest racing video"
-      url: VIDEO_B_PLACEHOLDER
+      url: https://youtu.be/0nwQf_OsoDo
       target: "_blank"
 
 
