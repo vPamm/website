@@ -36,19 +36,28 @@ jobs:
 
       - name: Update and push config
         run: |
-          CFG="config.yml"  # ← adjust to `config.yml` if that’s what your theme uses
-          
-          # Replace placeholders
-          sed -i 's|VIDEO_A_PLACEHOLDER|https://youtu.be/${{ steps.fetchA.outputs.id }}|g' $CFG
-          sed -i 's|VIDEO_B_PLACEHOLDER|https://youtu.be/${{ steps.fetchB.outputs.id }}|g' $CFG
+          CFG="config.yml"    # or _config.yml, whatever your theme uses
 
-          # Commit & push in one shot
+          # Channel A: look for the link titled “Watch my Channel A latest video”,
+          # then on the next line replace whatever url: … is there.
+          sed -i '/text: "Watch my Channel A latest video"/{
+              n
+              s|url: .*|url: "https://youtu.be/${{ steps.fetchA.outputs.id }}"|
+            }' $CFG
+
+          # Channel B:
+          sed -i '/text: "Watch my Channel B latest video"/{
+              n
+              s|url: .*|url: "https://youtu.be/${{ steps.fetchB.outputs.id }}"|
+            }' $CFG
+
+          # commit & push if anything changed
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $CFG
           if ! git diff --cached --quiet; then
-            git commit -m "chore: bump latest YouTube videos to ${{ steps.fetchA.outputs.id }} & ${{ steps.fetchB.outputs.id }}"
+            git commit -m "chore: bump YouTube videos to ${{ steps.fetchA.outputs.id }} & ${{ steps.fetchB.outputs.id }}"
             git push
           else
-            echo "No changes to commit."
+            echo "No changes—URLs are already up to date."
           fi
