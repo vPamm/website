@@ -7,7 +7,9 @@ on:
       - .gitignore
       - README.md
       - LICENSE
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Update Latest YouTube Videos"]
+    types: [ completed ]
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight (00:00 UTC)
     
