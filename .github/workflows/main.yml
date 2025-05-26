@@ -36,7 +36,7 @@ jobs:
 
       - name: Update and push config
         run: |
-          CFG="_config.yml"  # ← adjust to `config.yml` if that’s what your theme uses
+          CFG="config.yml"  # ← adjust to `config.yml` if that’s what your theme uses
           
           # Replace placeholders
           sed -i 's|VIDEO_A_PLACEHOLDER|https://youtu.be/${{ steps.fetchA.outputs.id }}|g' $CFG
