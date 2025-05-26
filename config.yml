@@ -90,7 +90,7 @@ socials:
       target: "_blank"
   - social:
       icon: "fa-brands fa-tiktok"
-      url: "https://www.tiktok.com/pamsexuals"
+      url: "https://www.tiktok.com/@pamsexuals"
       title: "Main TikTok"
       alt: "vPam TikTok"
       target: "_blank"
@@ -102,7 +102,7 @@ socials:
       target: "_blank"
   - social:
       icon: "fa-brands fa-tiktok"
-      url: "https://www.tiktok.com/pamgoesracing"
+      url: "https://www.tiktok.com/@pamgoesracing"
       title: "Racing TikTok"
       alt: "Pam Goes Racing TikTok"
       target: "_blank"
