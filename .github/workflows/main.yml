@@ -1,57 +1,54 @@
-name: Update Latest YouTube Video Links
+name: Update Latest YouTube Videos
 
 on:
   schedule:
-    - cron:  '0 * * * *'    # hourly
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
   update-videos:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-      - name: Fetch newest video for Channel A
+      - name: Fetch newest video A
         id: fetchA
+        env:
+          CHANNEL_A: ${{ secrets.YT_CHANNEL_ID_A }}
         run: |
-          FEED=$(curl -s "https://www.youtube.com/feeds/videos.xml?channel_id=${{ secrets.YT_CHANNEL_ID_A }}")
+          FEED=$(curl -s "https://www.youtube.com/feeds/videos.xml?channel_id=$CHANNEL_A")
+          echo "$FEED" | grep -m1 '<entry>'
           VID=$(echo "$FEED" | grep -oPm1 '(?<=<yt:videoId>)[^<]+')
           echo "id=$VID" >> $GITHUB_OUTPUT
 
-      - name: Fetch newest video for Channel B
+      - name: Fetch newest video B
         id: fetchB
+        env:
+          CHANNEL_B: ${{ secrets.YT_CHANNEL_ID_B }}
         run: |
-          FEED=$(curl -s "https://www.youtube.com/feeds/videos.xml?channel_id=${{ secrets.YT_CHANNEL_ID_B }}")
+          FEED=$(curl -s "https://www.youtube.com/feeds/videos.xml?channel_id=$CHANNEL_B")
+          echo "$FEED" | grep -m1 '<entry>'
           VID=$(echo "$FEED" | grep -oPm1 '(?<=<yt:videoId>)[^<]+')
           echo "id=$VID" >> $GITHUB_OUTPUT
 
-      - name: Update Linkyee config
+      - name: Update and push config
         run: |
-          CFG="config.yml"
+          CFG="_config.yml"  # ← adjust to `config.yml` if that’s what your theme uses
+          
+          # Replace placeholders
+          sed -i 's|VIDEO_A_PLACEHOLDER|https://youtu.be/${{ steps.fetchA.outputs.id }}|g' $CFG
+          sed -i 's|VIDEO_B_PLACEHOLDER|https://youtu.be/${{ steps.fetchB.outputs.id }}|g' $CFG
 
-          # Channel A: replace any url: …VIDEO_A_PLACEHOLDER… with the real YouTube URL
-          sed -i 's|^\(\s*url:\s*\).*VIDEO_A_PLACEHOLDER.*$|\1"https://youtu.be/${{ steps.fetchA.outputs.id }}"|' $CFG
-
-          # Channel B, if you have it:
-          sed -i 's|^\(\s*url:\s*\).*VIDEO_B_PLACEHOLDER.*$|\1"https://youtu.be/${{ steps.fetchB.outputs.id }}"|' $CFG
-
-          # commit only if something changed
+          # Commit & push in one shot
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $CFG
-          git diff --cached --quiet || git commit -m "chore: bump YouTube video links"
-
-
-      - name: Commit & push if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add config.yml
           if ! git diff --cached --quiet; then
-            git commit -m "chore: bump YouTube video links to ${ { steps.fetchA.outputs.id } } and ${ { steps.fetchB.outputs.id } }"
+            git commit -m "chore: bump latest YouTube videos to ${{ steps.fetchA.outputs.id }} & ${{ steps.fetchB.outputs.id }}"
             git push
+          else
+            echo "No changes to commit."
           fi
