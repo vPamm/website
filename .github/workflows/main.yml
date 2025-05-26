@@ -33,13 +33,13 @@ jobs:
         run: |
           CFG="config.yml"
 
-          # Channel A
-          sed -i 's|url: "VIDEO_A_PLACEHOLDER"|url: "https://youtu.be/${{ steps.fetchA.outputs.id }}"|' $CFG
+          # Channel A: replace any url: …VIDEO_A_PLACEHOLDER… with the real YouTube URL
+          sed -i 's|^\(\s*url:\s*\).*VIDEO_A_PLACEHOLDER.*$|\1"https://youtu.be/${{ steps.fetchA.outputs.id }}"|' $CFG
 
-          # Channel B (if you have it)
-          sed -i 's|url: "VIDEO_B_PLACEHOLDER"|url: "https://youtu.be/${{ steps.fetchB.outputs.id }}"|' $CFG
+          # Channel B, if you have it:
+          sed -i 's|^\(\s*url:\s*\).*VIDEO_B_PLACEHOLDER.*$|\1"https://youtu.be/${{ steps.fetchB.outputs.id }}"|' $CFG
 
-          # commit if changed
+          # commit only if something changed
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $CFG
